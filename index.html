@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Chaemin Shin — Frontend Developer</title>
+<meta name="description" content="신채민 · 프론트엔드 개발자. 보안과 시스템을 이해하는 사람이 만드는 화면. React · JavaScript · Figma." />
+<meta property="og:title" content="Chaemin Shin — Frontend Developer" />
+<meta property="og:description" content="How it works. Where it breaks. How it feels to use. 신채민의 프론트엔드 포트폴리오." />
+<meta property="og:type" content="profile" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%232733E6'/%3E%3Cpath d='M10 22V10h2.4l3.2 6.4V10H18v12h-2.4l-3.2-6.4V22z' fill='white'/%3E%3C/svg%3E" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+
+<style>
+  :root{
+    --bg:#F4F5F6;
+    --surface:#FFFFFF;
+    --sunken:#E9EBEE;
+    --ink:#15181D;
+    --ink-soft:#565D66;
+    --ink-faint:#8A929B;
+    --line:#DCDFE5;
+    --line-strong:#C6CCD4;
+    --accent:#2733E6;
+    --accent-ink:#1B22B0;
+    --accent-soft:#E9EAFB;
+
+    --radius:16px;
+    --radius-sm:10px;
+    --maxw:1120px;
+    --gutter:clamp(20px, 5.2vw, 72px);
+
+    --font-display:"Bricolage Grotesque","Pretendard",system-ui,sans-serif;
+    --font-sans:"Pretendard",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+    --font-mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  html.smooth{scroll-behavior:smooth}
+
+  body{
+    font-family:var(--font-sans);
+    background:var(--bg);color:var(--ink);
+    line-height:1.6;-webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--accent);color:#fff}
+  :focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+  code{
+    font-family:var(--font-mono);font-size:.82em;
+    background:var(--sunken);color:var(--accent-ink);
+    padding:2px 6px;border-radius:5px;
+  }
+
+  .wrap{max-width:var(--maxw);margin-inline:auto;padding-inline:var(--gutter)}
+
+  /* ---------- Nav ---------- */
+  .nav{
+    position:sticky;top:0;z-index:50;
+    background:color-mix(in srgb, var(--bg) 82%, transparent);
+    backdrop-filter:saturate(1.4) blur(10px);
+    border-bottom:1px solid transparent;
+    transition:border-color .3s ease, background .3s ease;
+  }
+  .nav.scrolled{border-color:var(--line)}
+  .nav__inner{
+    max-width:var(--maxw);margin-inline:auto;padding:14px var(--gutter);
+    display:flex;align-items:center;justify-content:space-between;gap:16px;
+  }
+  .brand{
+    font-family:var(--font-mono);font-weight:700;font-size:.82rem;letter-spacing:.02em;
+    color:var(--ink);display:inline-flex;align-items:center;gap:9px;
+  }
+  .brand .dot{width:9px;height:9px;border-radius:3px;background:var(--accent);display:inline-block}
+  .nav__links{display:flex;gap:4px;align-items:center}
+  .nav__links a{
+    font-family:var(--font-mono);font-size:.74rem;letter-spacing:.04em;
+    color:var(--ink-soft);padding:7px 11px;border-radius:8px;
+    transition:color .2s ease, background .2s ease;
+  }
+  .nav__links a:hover{color:var(--ink);background:var(--sunken)}
+  .nav__cta{color:#fff !important;background:var(--ink)}
+  .nav__cta:hover{background:var(--accent) !important;color:#fff !important}
+  @media (max-width:640px){ .nav__links a.hide-sm{display:none} }
+
+  /* ---------- Hero ---------- */
+  .hero{padding-top:clamp(48px, 9vh, 96px);padding-bottom:clamp(56px, 9vh, 104px)}
+  .hero__grid{display:block}
+  .eyebrow{
+    font-family:var(--font-mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--accent-ink);display:inline-flex;align-items:center;gap:10px;margin-bottom:26px;
+  }
+  .eyebrow::before{content:"";width:26px;height:1px;background:var(--accent);display:inline-block}
+  .hero h1{
+    font-family:var(--font-display);font-weight:700;
+    font-size:clamp(2.8rem, 7.6vw, 5.7rem);line-height:1;letter-spacing:-.03em;color:var(--ink);
+  }
+  .hero__ko{font-size:.4em;font-weight:500;color:var(--ink-soft);letter-spacing:-.01em;margin-left:.4em;white-space:nowrap}
+  .hero__tagline{
+    margin-top:26px;font-family:var(--font-display);font-weight:600;
+    font-size:clamp(1.25rem, 2.7vw, 1.95rem);line-height:1.18;letter-spacing:-.012em;color:var(--ink);
+  }
+  .hero__tagline .accent{color:var(--accent)}
+  .hero__lead{margin-top:26px;max-width:52ch;font-size:clamp(1rem, 1.15vw, 1.12rem);color:var(--ink-soft);line-height:1.68}
+  .hero__lead b{color:var(--ink);font-weight:600}
+  .hero__contact{margin-top:16px;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center}
+  .hero__contact a{
+    font-family:var(--font-mono);font-size:.78rem;letter-spacing:.02em;color:var(--ink-soft);
+    border-bottom:1px solid var(--line-strong);padding-bottom:2px;
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .hero__contact a:hover{color:var(--accent);border-color:var(--accent)}
+  .tag{
+    font-family:var(--font-mono);font-size:.72rem;letter-spacing:.03em;color:var(--ink-soft);
+    background:var(--surface);border:1px solid var(--line);padding:6px 11px;border-radius:999px;white-space:nowrap;
+  }
+  .tag--solid{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+  /* ---------- Section frame ---------- */
+  .section{padding-block:clamp(64px, 10vh, 128px)}
+  .section + .section{border-top:1px solid var(--line)}
+  .section-head{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:baseline;margin-bottom:clamp(36px, 5vh, 60px)}
+  .section-idx{font-family:var(--font-mono);font-size:.74rem;letter-spacing:.1em;color:var(--accent-ink);white-space:nowrap}
+  .section-title{font-family:var(--font-display);font-weight:700;font-size:clamp(1.6rem, 3.6vw, 2.5rem);letter-spacing:-.015em;line-height:1.05;color:var(--ink)}
+  .section-desc{grid-column:2;margin-top:14px;max-width:56ch;color:var(--ink-soft);font-size:1.02rem;line-height:1.7}
+
+  /* ---------- About ---------- */
+  .about__prose{max-width:62ch}
+  .about__prose p{color:var(--ink-soft);font-size:1.1rem;line-height:1.82}
+  .about__prose p + p{margin-top:22px}
+  .about__prose b{color:var(--ink);font-weight:600}
+
+  /* ---------- Stack ---------- */
+  .stack{display:grid;grid-template-columns:1fr 1fr;gap:clamp(20px,3vw,40px)}
+  .stack__group{border-top:1px solid var(--line-strong);padding-top:20px}
+  .stack__group--wide{grid-column:1 / -1}
+  .stack__group h3{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:16px}
+  .stack__group h3 .primary{color:var(--accent-ink)}
+  .stack__items{display:flex;flex-wrap:wrap;gap:8px}
+  .skill{
+    font-size:.9rem;font-weight:500;color:var(--ink);background:var(--surface);border:1px solid var(--line);
+    padding:8px 13px;border-radius:9px;transition:border-color .2s ease, transform .2s ease;
+  }
+  .skill:hover{border-color:var(--line-strong);transform:translateY(-2px)}
+  .skill--focus{border-color:var(--accent);color:var(--accent-ink);background:var(--accent-soft)}
+  .skill--course{font-family:var(--font-mono);font-size:.8rem;font-weight:400;letter-spacing:.01em}
+  .stack__note{
+    grid-column:1 / -1;margin-top:8px;font-size:.92rem;color:var(--ink-soft);line-height:1.6;
+    padding:14px 16px;background:var(--sunken);border-radius:var(--radius-sm);border-left:3px solid var(--accent);
+  }
+  .stack__note b{color:var(--ink);font-weight:600}
+
+  /* ---------- Work ---------- */
+  .work{display:grid;gap:20px}
+  .work__feature{grid-template-columns:1fr 1fr;gap:20px;display:grid}
+  .card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:clamp(22px, 2.4vw, 32px);display:flex;flex-direction:column;position:relative;overflow:hidden;
+    transition:border-color .25s ease, transform .25s ease, box-shadow .25s ease;
+  }
+  .card:hover{border-color:var(--line-strong);transform:translateY(-3px);box-shadow:0 22px 40px -30px rgba(21,24,29,.3)}
+  .card__top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+  .card__role{
+    font-family:var(--font-mono);font-size:.66rem;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--accent-ink);background:var(--accent-soft);padding:5px 10px;border-radius:999px;white-space:nowrap;
+  }
+  .card__date{font-family:var(--font-mono);font-size:.68rem;color:var(--ink-faint);letter-spacing:.02em;text-align:right}
+  .card__title{font-family:var(--font-display);font-weight:700;letter-spacing:-.01em;font-size:clamp(1.3rem, 2.2vw, 1.7rem);color:var(--ink);line-height:1.1}
+  .card__body{color:var(--ink-soft);font-size:.97rem;line-height:1.68;margin-top:12px}
+  .card__bullets{list-style:none;margin-top:16px;display:grid;gap:10px}
+  .card__bullets li{position:relative;padding-left:18px;font-size:.9rem;color:var(--ink-soft);line-height:1.55}
+  .card__bullets li::before{content:"";position:absolute;left:0;top:9px;width:5px;height:5px;border-radius:1px;background:var(--accent)}
+  .card__foot{margin-top:auto;padding-top:22px}
+  .card__stack{display:flex;flex-wrap:wrap;gap:6px}
+  .chip{font-family:var(--font-mono);font-size:.66rem;letter-spacing:.02em;color:var(--ink-soft);border:1px solid var(--line);border-radius:6px;padding:4px 8px;background:var(--bg)}
+  .card__link{
+    margin-top:16px;display:inline-flex;align-items:center;gap:7px;font-family:var(--font-mono);
+    font-size:.72rem;letter-spacing:.04em;color:var(--ink);width:max-content;
+    border-bottom:1px solid var(--line-strong);padding-bottom:2px;
+    transition:color .2s ease, border-color .2s ease, gap .2s ease;
+  }
+  .card__link:hover{color:var(--accent);border-color:var(--accent);gap:11px}
+  .card__link .arw{transition:transform .2s ease}
+  .card__link:hover .arw{transform:translateX(2px)}
+  .card--muted .card__role{color:var(--ink-soft);background:var(--sunken)}
+
+  /* ---------- Timeline (Education) ---------- */
+  .xp{border-top:1px solid var(--line-strong)}
+  .xp__row{display:grid;grid-template-columns:200px 1fr;gap:clamp(16px,3vw,40px);padding:24px 0;border-bottom:1px solid var(--line)}
+  .xp__when{font-family:var(--font-mono);font-size:.72rem;color:var(--ink-faint);letter-spacing:.03em;padding-top:3px}
+  .xp__what h3{font-size:1.1rem;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+  .xp__what .org{font-size:.86rem;color:var(--accent-ink);font-family:var(--font-mono);letter-spacing:.02em;margin-top:3px}
+  .xp__what p{color:var(--ink-soft);font-size:.95rem;line-height:1.6;margin-top:9px;max-width:62ch}
+
+  /* ---------- Activities ---------- */
+  .actgroup{border-top:1px solid var(--line-strong);padding-top:20px}
+  .actgroup h3{font-family:var(--font-mono);font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:18px}
+  .actlist{list-style:none;display:grid;gap:18px}
+  .actlist li{display:grid;gap:4px}
+  .act-name{font-size:1rem;font-weight:600;color:var(--ink);letter-spacing:-.01em}
+  .act-sub{font-size:.88rem;color:var(--ink-soft);line-height:1.5}
+
+  /* ---------- Awards ---------- */
+  .honors{display:grid;gap:0;border-top:1px solid var(--line-strong)}
+  .honor{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:baseline;padding:20px 0;border-bottom:1px solid var(--line)}
+  .honor__name{font-size:1.05rem;font-weight:600;color:var(--ink)}
+  .honor__name span{display:block;font-size:.86rem;color:var(--ink-soft);font-weight:400;margin-top:3px}
+  .honor__when{font-family:var(--font-mono);font-size:.72rem;color:var(--ink-faint);white-space:nowrap}
+
+  /* ---------- Footer / Contact ---------- */
+  .footer{background:var(--ink);color:#fff;padding-block:clamp(72px,10vh,120px)}
+  .footer .eyebrow{color:#A9B0FF}
+  .footer .eyebrow::before{background:#A9B0FF}
+  .footer h2{font-family:var(--font-display);font-weight:700;font-size:clamp(2rem,5vw,3.4rem);line-height:1.02;letter-spacing:-.02em;max-width:18ch;margin-bottom:20px}
+  .footer__lead{color:#C3C8D2;font-size:1.08rem;line-height:1.7;max-width:46ch;margin-bottom:40px}
+  .footer__links{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:56px}
+  .flink{
+    display:inline-flex;align-items:center;gap:9px;font-family:var(--font-mono);font-size:.8rem;letter-spacing:.02em;
+    padding:13px 20px;border-radius:11px;border:1px solid rgba(255,255,255,.16);color:#fff;
+    transition:background .2s ease, border-color .2s ease, transform .2s ease;
+  }
+  .flink:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.4);transform:translateY(-2px)}
+  .flink--primary{background:#fff;color:var(--ink);border-color:#fff}
+  .flink--primary:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .footer__meta{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;padding-top:26px;border-top:1px solid rgba(255,255,255,.14);font-family:var(--font-mono);font-size:.7rem;color:#7E8794;letter-spacing:.03em}
+
+  /* ---------- Reveal ---------- */
+  html.js [data-reveal]{opacity:0;transform:translateY(16px)}
+  html.js [data-reveal].in{opacity:1;transform:none;transition:opacity .6s ease, transform .6s cubic-bezier(.16,.84,.44,1)}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width:900px){
+    .hero__grid{grid-template-columns:1fr;gap:44px}
+    .hero__lead{max-width:46ch}
+    .work__feature{grid-template-columns:1fr}
+    .stack{grid-template-columns:1fr}
+    .xp__row{grid-template-columns:1fr;gap:6px}
+    .section-head{grid-template-columns:1fr}
+    .section-idx{margin-bottom:-8px}
+    .section-desc{grid-column:1}
+  }
+  @media (max-width:560px){
+    .honor{grid-template-columns:1fr}
+    .honor__when{order:-1}
+  }
+  @media (prefers-reduced-motion:reduce){
+    html.smooth{scroll-behavior:auto}
+    *{transition-duration:.001ms !important;animation-duration:.001ms !important}
+    html.js [data-reveal]{opacity:1;transform:none}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<header class="nav" id="nav">
+  <div class="nav__inner">
+    <a href="#top" class="brand" aria-label="Chaemin Shin — 홈으로"><span class="dot"></span>CHAEMIN SHIN</a>
+    <nav class="nav__links" aria-label="주요 섹션">
+      <a href="#about" class="hide-sm">About</a>
+      <a href="#work">Work</a>
+      <a href="#stack" class="hide-sm">Stack</a>
+      <a href="#contact" class="nav__cta">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero" id="top">
+    <div class="wrap">
+      <div class="hero__grid">
+        <div class="hero__intro">
+          <span class="eyebrow">Software Engineer · Seoul, KR · 2026</span>
+          <h1>Chaemin Shin<span class="hero__ko">신채민</span></h1>
+          <div class="hero__contact">
+            <a href="mailto:min029582@korea.ac.kr">✉ min029582@korea.ac.kr</a>
+            <a href="https://github.com/masipnida" target="_blank" rel="noopener">↗ github.com/masipnida</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 01 ABOUT -->
+  <section class="section" id="about">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="section-idx">01 — About</span>
+        <h2 class="section-title">소개</h2>
+      </div>
+      <div class="about__prose" data-reveal>
+        <p>
+          소규모 프로젝트부터 공모전 출품작까지 프론트엔드를 직접 설계하고 구현하며 더 나은 UI/UX와 디자인을 고민해 왔습니다.
+           대학생 개발자 네트워킹·팀빌딩 서비스 '모코지'의 프론트엔드를 담당했고, 한·일 합동 해커톤 'GDG Bridge'에서는
+            프론트엔드를 <b>단독으로 맡아 개발했습니다.</b> 현재는 소속 단과대 학생회 웹사이트 개발TF 프론트엔드 팀장을 맡고 있습니다.
+        </p>
+        <p>
+          프론트엔드를 혼자 완성해 본 경험 덕분에 <b>아이디어를 비교적 빠르게 실제 디자인으로 옮길 수 있고</b>,
+           Figma에 익숙해 디자이너와의 협업도 매끄럽습니다. 데이터베이스 수업과 개인 스터디로 백엔드에 대한 이해도 갖추고 있어 협업에 무리가 없으며,
+            AI/ML과 AI 에이전트 도구를 다룰 줄 압니다. 여기에 보안을 깊이 파고들고 있어 웹·앱 보안 이슈에도 대응할 수 있습니다.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 STACK -->
+  <section class="section" id="stack">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="section-idx">02 — Stack</span>
+        <h2 class="section-title">역량</h2>
+      </div>
+      <div class="stack">
+        <div class="stack__group" data-reveal>
+          <h3><span class="primary">Frontend &amp; Design</span> — 지원 직군</h3>
+          <div class="stack__items">
+            <span class="skill skill--focus">Next.js</span>
+            <span class="skill skill--focus">React</span>
+            <span class="skill skill--focus">JavaScript / TypeScript</span>
+            <span class="skill">Vite</span>
+            <span class="skill">HTML / CSS</span>
+            <span class="skill">Figma</span>
+          </div>
+        </div>
+        <div class="stack__group" data-reveal>
+          <h3>Languages &amp; Tools</h3>
+          <div class="stack__items">
+            <span class="skill">Python</span>
+            <span class="skill">C</span>
+            <span class="skill">C#</span>
+            <span class="skill">Git</span>
+            <span class="skill">Docker</span>
+          </div>
+        </div>
+        <div class="stack__group" data-reveal>
+          <h3>ML &amp; Data</h3>
+          <div class="stack__items">
+            <span class="skill">PyTorch</span>
+            <span class="skill">HuggingFace</span>
+          </div>
+        </div>
+        <div class="stack__group" data-reveal>
+          <h3>Languages · 언어</h3>
+          <div class="stack__items">
+            <span class="skill">Korean — Native</span>
+            <span class="skill">English</span>
+            <span class="skill">Japanese</span>
+          </div>
+        </div>
+        <div class="stack__group stack__group--wide" data-reveal>
+          <h3>CS Foundations · 전공 이수</h3>
+          <div class="stack__items">
+            <span class="skill skill--course">Data Structures</span>
+            <span class="skill skill--course">Algorithms</span>
+            <span class="skill skill--course">Operating System</span>
+            <span class="skill skill--course">Computer Network</span>
+            <span class="skill skill--course">Database</span>
+            <span class="skill skill--course">Artificial Intelligence</span>
+            <span class="skill skill--course">Programming Language</span>
+            <span class="skill skill--course">Digital Logic Design</span>
+            <span class="skill skill--course">Information Security</span>
+            <span class="skill skill--course">Software Security</span>
+            <span class="skill skill--course">Data Communications</span>
+          </div>
+        </div>
+        <p class="stack__note" data-reveal>
+          <b>Next.js, React와 Java / TypeScript</b>는 지금 가장 집중해서 깊이를 더해가고 있는 영역입니다. Mocozi를 직접 설계·구현하며 실전 감각을 쌓았고,
+          시스템에 대한 이해를 바탕으로 프레임워크의 동작 원리까지 빠르게 익혀가고 있습니다.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 SELECTED WORK -->
+  <section class="section" id="work">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="section-idx">03 — Selected Work</span>
+        <h2 class="section-title">만든 것들</h2>
+        <p class="section-desc">제품을 처음부터 화면으로 만드는 일, 그리고 그 아래에서 데이터와 모델이 돌아가게 하는 일. 두 가지를 모두 해봤습니다.</p>
+      </div>
+
+      <div class="work">
+        <div class="work__feature">
+          <article class="card" data-reveal>
+            <div class="card__top">
+              <span class="card__role">Frontend · Design</span>
+              <span class="card__date">Apr–May 2026</span>
+            </div>
+            <h3 class="card__title">Mocozi</h3>
+            <p class="card__body">
+              대학생 개발자를 위한 팀 빌딩 웹 서비스. 프로젝트·해커톤·공모전에서 함께할 동료를 찾고 소통하는 공간입니다.
+            </p>
+            <ul class="card__bullets">
+              <li><code>Next.js</code>, <code>React</code> 로 전체 페이지 UI를 구현하고 컴포넌트 구조 설계</li>
+              <li><code>Figma</code> 로 서비스 전체 화면을 디자인하고 UI 톤 정리</li>
+              <li>팀원 모집 · 소통 등 핵심 사용자 플로우 화면 설계</li>
+            </ul>
+            <div class="card__foot">
+              <div class="card__stack">
+                <span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">Next.js</span><span class="chip">Figma</span>
+              </div>
+              <a class="card__link" href="https://github.com/masipnida" target="_blank" rel="noopener">GitHub <span class="arw">→</span></a>
+            </div>
+          </article>
+
+          <article class="card" data-reveal>
+            <div class="card__top">
+              <span class="card__role">Frontend</span>
+              <span class="card__date">May 2026 · gdg bridge hackathon</span>
+            </div>
+            <h3 class="card__title">WBOND</h3>
+            <p class="card__body">
+              지도 기반 실시간 운동 모집 게시판 서비스. 가벼운 운동 소모임같은 느낌의 서비스이다.
+            </p>
+            <ul class="card__bullets">
+              <li><code>React</code>, <code>Vite</code> 등으로 전체 페이지 UI를 구현 및 컴포넌트 구조 설계</li>
+              <li><code>Figma</code> 로 디자이너의 설계도를 받아 화면에 해당 디자인 구현</li>
+            </ul>
+            <div class="card__foot">
+              <div class="card__stack">
+                <span class="chip">React</span><span class="chip">JavaScript</span><span class="chip">Vite</span><span class="chip">Tanstack</span>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="work__feature">
+          <article class="card card--muted" data-reveal>
+            <div class="card__top">
+              <span class="card__role">Product · Prompt Eng.</span>
+              <span class="card__date">Sep–Nov 2025</span>
+            </div>
+            <h3 class="card__title">Horang Print Studio</h3>
+            <p class="card__body">
+              원본 사진을 선택한 테마의 스타일로 바꿔주는 AI 네컷 사진 서비스.
+            </p>
+            <ul class="card__bullets">
+              <li><code>Gemini</code> 이미지 생성으로 사진 분위기를 테마 스타일로 재해석</li>
+              <li>테마별 스타일 변환을 위한 <code>Prompt Engineering</code> 및 아이디어 리서치</li>
+            </ul>
+            <div class="card__foot">
+              <div class="card__stack">
+                <span class="chip">Gemini · Image Gen</span><span class="chip">Prompt Engineering</span><span class="chip">Photo Booth</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="card card--muted" data-reveal>
+            <div class="card__top">
+              <span class="card__role">AI/ML · 우수상</span>
+              <span class="card__date">Nov 2025 · REALThon</span>
+            </div>
+            <h3 class="card__title">REALThon 2025</h3>
+            <p class="card__body">
+              5개 대학 연합 해커톤에서 AI/ML 엔지니어로 참여해 <b>우수상(Excellence Award)</b>을 수상했습니다.
+            </p>
+            <ul class="card__bullets">
+              <li>직접 수집한 데이터로 <code>XGBoost</code> 분류기를 학습해 문제 해결</li>
+              <li>데이터 수집부터 모델 학습·튜닝까지 담당</li>
+            </ul>
+            <div class="card__foot">
+              <div class="card__stack">
+                <span class="chip">Python</span><span class="chip">XGBoost</span><span class="chip">Data Collection</span>
+              </div>
+              <a class="card__link" href="https://github.com/masipnida/datathon_inthon" target="_blank" rel="noopener">GitHub <span class="arw">→</span></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 EXPERIENCE -->
+  <section class="section" id="experience">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="section-idx">04 — Experience</span>
+        <h2 class="section-title">경험</h2>
+      </div>
+      <div class="xp">
+        <div class="xp__row" data-reveal>
+          <span class="xp__when">2026.06 — present</span>
+          <div class="xp__what">
+            <h3>고려대학교 소프트웨어보안 연구실 — SSP</h3>
+            <div class="org">학부연구생 — Undergraduated Researcher</div>
+            <p>
+              학부 연구생으로 합류해 소프트웨어·시스템 취약점의 발견과 분석을 중심으로 공부하고 있습니다.
+               세미나와 논문 스터디로 기초를 다지며, 취약점 탐지에 AI를 접목하는 연구로 나아가는 것을 목표로 하고 있습니다.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 EDUCATION -->
+  <section class="section" id="education">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="section-idx">05 — Education</span>
+        <h2 class="section-title">학력</h2>
+      </div>
+      <div class="xp">
+        <div class="xp__row" data-reveal>
+          <span class="xp__when">2024.03 — 2028.02 (expected)</span>
+          <div class="xp__what">
+            <h3>고려대학교 — Korea University</h3>
+            <div class="org">컴퓨터학과 학부 · B.S. in Computer Science and Engineering</div>
+            <p>
+              GPA 3.94 / 4.50 · 73학점 이수 (4학기 기준). 정보보안 · 소프트웨어 보안, 운영체제, 알고리즘, 컴퓨터 네트워크 등
+              시스템과 보안을 중심으로 수강했습니다.
+            </p>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <!-- 06 ACTIVITIES -->
+  <section class="section" id="activities">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="section-idx">05 — Activities</span>
+        <h2 class="section-title">활동</h2>
+      </div>
+      <div class="stack">
+        <div class="actgroup" data-reveal>
+          <h3>동아리 · 스터디 / Clubs &amp; Study</h3>
+          <ul class="actlist">
+            <li>
+              <span class="act-name">KUICS — Club Officer</span>
+              <span class="act-sub">Korea University Institute of Computer Security · 기초 해킹 · AI 보안 스터디 운영 (2026–)</span>
+            </li>
+            <li>
+              <span class="act-name">GDG on Campus, Korea University — AI/ML</span>
+              <span class="act-sub">Google Developer Groups · 주니어를 거쳐 정규 멤버로 활동 (2025–)</span>
+            </li>
+            <li>
+              <span class="act-name">AIKU — 딥러닝 학회 7기 회원</span>
+              <span class="act-sub">7기 회원으로서 CV · NLP · Physical AI 등 딥러닝의 다양한 분야에 대해 학습</span>
+            </li>
+          </ul>
+        </div>
+        <div class="actgroup" data-reveal>
+          <h3>학생회 / Student Councils</h3>
+          <ul class="actlist">
+            <li>
+              <span class="act-name">정보대학 학생회 Canvas — 교육·진로국</span>
+              <span class="act-sub">2024 · 교육 행사 SNS 콘텐츠 및 공지 제작</span>
+            </li>
+            <li>
+              <span class="act-name">컴퓨터학과 학생회 Mir — 복지·협력국</span>
+              <span class="act-sub">2025 · 학생 복지 행사 기획 및 운영</span>
+            </li>
+            <li>
+              <span class="act-name">정보대학 학생회 Pulse — 교육·시설국</span>
+              <span class="act-sub">2026 · 교육환경 개선 및 콘텐츠 제작</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 AWARDS -->
+  <section class="section" id="awards">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="section-idx">06 — Awards</span>
+        <h2 class="section-title">수상</h2>
+      </div>
+      <div class="honors">
+        <div class="honor" data-reveal>
+          <div class="honor__name">Excellence Award — REALThon 2025<span>The 5-University Joint Hackathon · AI/ML Engineer</span></div>
+          <span class="honor__when">Nov 2025</span>
+        </div>
+        <div class="honor" data-reveal>
+          <div class="honor__name">Dean’s List — Korea University<span>College of Informatics</span></div>
+          <span class="honor__when">Spring 2024</span>
+        </div>
+        <div class="honor" data-reveal>
+          <div class="honor__name">Semester High Honors — Korea University<span>College of Informatics</span></div>
+          <span class="honor__when">Spring 2024</span>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER / CONTACT -->
+<footer class="footer" id="contact">
+  <div class="wrap">
+    <div class="footer__meta">
+      <span>© 2026 Chaemin Shin · 신채민</span>
+      <span>Built for an application</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var root = document.documentElement;
+    if (!reduce) { root.classList.add('js', 'smooth'); }
+
+    var nav = document.getElementById('nav');
+    var onScroll = function () {
+      if (window.scrollY > 8) nav.classList.add('scrolled');
+      else nav.classList.remove('scrolled');
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    if (!reduce && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+      document.querySelectorAll('[data-reveal]').forEach(function (el) { io.observe(el); });
+    } else {
+      document.querySelectorAll('[data-reveal]').forEach(function (el) { el.classList.add('in'); });
+    }
+  })();
+</script>
+</body>
+</html>
