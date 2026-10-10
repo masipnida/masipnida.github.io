@@ -15,14 +15,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
 <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 
-<link rel="stylesheet" href="portfolio.css?v=menu-motion-3" />
+<link rel="stylesheet" href="portfolio.css?v=menu-size-13" />
 <script type="module" src="vendor/model-viewer.min.js"></script>
 <script src="portfolio-content.js" defer></script>
-<script src="portfolio.js?v=idle-mixer-fix-8" defer></script>
+<script src="portfolio.js?v=menu-size-13" defer></script>
 </head>
 <body data-page="home">
   <div class="scene" aria-hidden="true">
-      <model-viewer id="pigeon" src="assets/pigeon-idle.glb?v=menu-idle-4" animation-name="Blink" animation-crossfade-duration="350" alt="비둘기 3D 모델" camera-orbit="0deg 80deg 105%" max-camera-orbit="auto auto 200%" field-of-view="30deg" interaction-prompt="none" loading="eager" reveal="auto" shadow-intensity="0" exposure="1">
+      <model-viewer id="pigeon" src="assets/pigeon-idle.glb?v=menu-idle-4" animation-name="Blink" animation-crossfade-duration="350" alt="비둘기 3D 모델" camera-orbit="0deg 80deg 157.5%" max-camera-orbit="auto auto 200%" field-of-view="30deg" interaction-prompt="none" loading="eager" reveal="auto" shadow-intensity="0" exposure="1">
       <span slot="progress-bar"></span>
     </model-viewer>
   </div>
@@ -45,7 +45,7 @@
       <p class="name-ko">신채민</p>
       <a class="mas-toggle" id="mas-toggle" href="#menu" aria-controls="section-nav" aria-expanded="false">mas? →</a>
     </section>
-    <a class="mas-toggle section-return" href="#top" hidden>← mas.</a>
+    <a class="mas-toggle section-return" href="#menu" aria-label="메뉴로 돌아가기" hidden>←</a>
     <div id="page-content" hidden></div>
     <noscript><p>소개와 포트폴리오를 보려면 JavaScript를 활성화해 주세요.</p></noscript>
   </main>

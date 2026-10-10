@@ -65,16 +65,16 @@
   });
 
   function setAngle(value) {
-    pigeon.cameraOrbit = `${value}deg 80deg ${document.body.dataset.page === 'menu' ? 157.5 : 105}%`;
+    pigeon.cameraOrbit = `${value}deg 80deg 157.5%`;
     pigeon.jumpCameraToGoal();
   }
 
-  async function turnTo(target) {
+  async function turnTo(target, immediate = false) {
     const version = ++transition;
     await modelReady;
     if (version !== transition || !pigeon.loaded) return;
     const from = angle;
-    const duration = reducedMotion.matches || from === target ? 0 : 850;
+    const duration = reducedMotion.matches || immediate || from === target ? 0 : 1100;
     return new Promise(resolve => {
       const start = performance.now();
       function frame(now) {
@@ -91,7 +91,7 @@
   }
   // A slow model can finish after the entrance wait has timed out.
   pigeon.addEventListener('load', () => {
-    angle = document.body.dataset.page === 'menu' ? 50 : document.body.dataset.page === 'stack' ? 90 : document.body.dataset.page === 'work' ? -90 : 0;
+    angle = document.body.dataset.page === 'menu' ? 50 : 0;
     setAngle(angle);
     scheduleIdle();
   });
@@ -114,12 +114,14 @@
     document.body.dataset.page = page;
     scheduleIdle();
     document.querySelector('.pigeon-links').inert = page !== 'home';
-    menu.inert = page === 'home';
+    menu.inert = page !== 'menu';
     toggle.textContent = page === 'home' ? 'mas? →' : '← mas.';
     toggle.href = page === 'home' ? '#menu' : '#top';
     toggle.setAttribute('aria-expanded', String(page !== 'home'));
     home.hidden = !showProfile;
     sectionReturn.hidden = showProfile;
+    if (!showProfile && menu.contains(document.activeElement)) sectionReturn.focus({ preventScroll: true });
+    if (page === 'menu' && document.activeElement === sectionReturn) links[0].focus({ preventScroll: true });
     content.hidden = showProfile;
     content.innerHTML = showProfile ? '' : window.PORTFOLIO_CONTENT[page];
     if (page === 'home' && menu.contains(document.activeElement)) toggle.focus({ preventScroll: true });
@@ -128,7 +130,7 @@
       else link.removeAttribute('aria-current');
     });
     document.title = `${page === 'home' ? 'Chaemin Shin' : page[0].toUpperCase() + page.slice(1) + ' — Chaemin Shin'} · Portfolio`;
-    const turning = turnTo(page === 'menu' ? 50 : page === 'stack' ? 90 : page === 'work' ? -90 : 0);
+    const turning = turnTo(page === 'menu' ? 50 : 0, !showProfile);
     window.scrollTo({ top: 0, behavior: 'instant' });
     if (showProfile && hadProfile && Number(opacity) > 0) {
       home.style.opacity = '1';
@@ -150,7 +152,7 @@
   }
   window.addEventListener('hashchange', render);
   window.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && document.body.dataset.page !== 'home') location.hash = 'top';
+    if (event.key === 'Escape' && document.body.dataset.page !== 'home') location.hash = document.body.dataset.page === 'menu' ? 'top' : 'menu';
   });
   render();
 })();
