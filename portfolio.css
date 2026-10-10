@@ -34,6 +34,9 @@ a:focus-visible { outline: 2px solid currentColor; outline-offset: 6px; border-r
 ::selection { background: var(--palette-2); color: #151815; }
 /* Keep the WebGL drawing buffer stable while CSS composites its movement. */
 .scene { position: fixed; inset: 0; pointer-events: none; overflow: hidden; background: var(--palette-3); clip-path: circle(150vmax at var(--bird-x) var(--hole-y)); transition: clip-path 1.1s cubic-bezier(.65,0,.2,1); }
+/* A soft ground contact, composited behind the model without extra 3D rendering. */
+.scene::before { content: ""; position: absolute; left: calc(75vw - var(--bird-size) * .12); top: calc(var(--bird-y) + var(--bird-size) * .4); width: calc(var(--bird-size) * .605); height: calc(var(--bird-size) * .0825); transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(ellipse, rgb(48 55 48 / .22), rgb(48 55 48 / .088) 40%, transparent 72%); opacity: 0; transition: opacity .3s ease; }
+body[data-page="menu"] .scene::before { opacity: 1; transition: opacity .6s ease .35s; }
 body[data-page="home"] .scene { clip-path: circle(calc(var(--home-hole-size) / 2) at var(--bird-x) calc(var(--hole-y) + var(--home-offset))); }
 #pigeon { position: absolute; left: 0; top: 0; width: calc(var(--bird-size) * 1.3); height: auto; aspect-ratio: 1; background: transparent; --poster-color: transparent; transform: translate(calc(var(--bird-x) - 50%), calc(var(--bird-y) - 50%)) scale(.7692307692); opacity: 1; transition: transform 1.1s cubic-bezier(.65,0,.2,1), opacity .6s ease; }
 body[data-page="home"] #pigeon { transform: translate(calc(var(--bird-x) - 50%), calc(var(--hole-y) + var(--bird-size) * .299 + var(--home-offset) - 50%)) scale(1.5); }
@@ -120,6 +123,7 @@ code { font-family: var(--mono); font-size: .83em; }
   :root { --bird-size: 270px; --bird-x: 70vw; --bird-y: 170px; --home-offset: 32px; --home-hole-size: 210px; }
   body[data-page="home"] { --bird-size: 270px; --bird-x: min(68vw, calc(100% - 105px)); --bird-y: 235px; }
   .scene { position: absolute; }
+  .scene::before { left: calc(71vw - 25px); top: 280px; width: 127.6px; height: 17.6px; }
   #pigeon { width: 455px; transform: translate(calc(var(--bird-x) - 50%), calc(var(--bird-y) - 50%)) scale(.5934065934); }
   body[data-page="home"] { --hole-y: calc(var(--bird-y) - 350px * .23); }
   body[data-page="home"] #pigeon { transform: translate(calc(var(--bird-x) - 50%), calc(var(--hole-y) + 350px * .299 + var(--home-offset) - 50%)) scale(1.5); }

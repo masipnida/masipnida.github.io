@@ -51,3 +51,5 @@ Do not assign model-viewer currentTime while switching active clips: its setter 
 The four menu links fade in over 450ms with a 300ms entrance delay, and fade out over 300ms on all departures. They stay mounted for the opacity transition; visibility is delayed until fade-out completes and inert removes interaction immediately. Reduced motion disables the fades.
 
 Camera radius stays at 157.5% on all routes. Home uses CSS scale 1.5; desktop Menu uses 1.275 (15% smaller) centered at 75vw. Mobile Menu uses scale .765 at 71vw/195px to fit narrow screens. Hidden details retain Menu positioning. Menu labels are 10% larger: clamp(26.4px, 2.86vw, 39.6px), or 30.8px on mobile.
+
+Menu alone has a soft radial-gradient ground shadow behind the pigeon, aligned beneath its feet. Its width and height are 10% larger than the initial shadow, with gradient opacity increased by 10% (.22 center, .088 outer stop). It fades in after arrival and fades out on departure; no extra WebGL shadow pass is used.
