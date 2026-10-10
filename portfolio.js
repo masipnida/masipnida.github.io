@@ -11,6 +11,53 @@
   let transition = 0;
   let navigation = 0;
   let profileAnimation;
+  let idleTimer;
+  let awaitingMotionEnd = false;
+  let idleVersion = 0;
+  function chooseMenuMotion(value) {
+    return value < .32 ? null : value < .49 ? 'Blink' : value < .66 ? 'Peck' : value < .83 ? 'HeadTilt' : 'LookAround';
+  }
+  async function playMotion(name, version, loop = false) {
+    pigeon.animationCrossfadeDuration = name === 'Blink' ? 45 : name === 'Breathing' && pigeon.animationName === 'Blink' ? 35 : 350;
+    pigeon.animationName = name;
+    await pigeon.updateComplete;
+    if (version !== idleVersion) return;
+    // Seeking here resets the entire mixer clock, invalidating active crossfades.
+    // The viewer starts new clips and resets completed clips itself.
+    awaitingMotionEnd = !loop;
+    pigeon.play({ repetitions: loop ? Infinity : 1 });
+  }
+  async function scheduleIdle(keepBreathing = false) {
+    const version = ++idleVersion;
+    clearTimeout(idleTimer);
+    awaitingMotionEnd = false;
+    if (!pigeon.loaded) return;
+    const page = document.body.dataset.page;
+    const active = ['home', 'menu'].includes(page) && !document.hidden && !reducedMotion.matches;
+    const continuing = active && page === 'menu' && keepBreathing === true && pigeon.animationName === 'Breathing' && !pigeon.paused;
+    if (!active || page !== 'menu') {
+      pigeon.pause();
+      pigeon.currentTime = 0;
+    }
+    if (!active) return;
+    if (page === 'menu' && !continuing && pigeon.availableAnimations.includes('Breathing')) {
+      await playMotion('Breathing', version, true);
+      if (version !== idleVersion) return;
+    }
+    idleTimer = setTimeout(async () => {
+      idleTimer = undefined;
+      const motion = page === 'home' ? 'Blink' : chooseMenuMotion(Math.random());
+      if (!motion || !pigeon.availableAnimations.includes(motion)) return scheduleIdle(true);
+      await playMotion(motion, version);
+    }, 3000 + Math.random() * 4000);
+  }
+  pigeon.addEventListener('finished', () => {
+    if (!awaitingMotionEnd) return;
+    awaitingMotionEnd = false;
+    return scheduleIdle();
+  });
+  document.addEventListener('visibilitychange', scheduleIdle);
+  reducedMotion.addEventListener('change', scheduleIdle);
   const modelReady = new Promise(resolve => {
     const timeout = setTimeout(() => resolve(false), 12000);
     pigeon.addEventListener('load', () => { clearTimeout(timeout); resolve(true); }, { once: true });
@@ -18,7 +65,7 @@
   });
 
   function setAngle(value) {
-    pigeon.cameraOrbit = `${value}deg 80deg 105%`;
+    pigeon.cameraOrbit = `${value}deg 80deg ${document.body.dataset.page === 'menu' ? 157.5 : 105}%`;
     pigeon.jumpCameraToGoal();
   }
 
@@ -44,8 +91,9 @@
   }
   // A slow model can finish after the entrance wait has timed out.
   pigeon.addEventListener('load', () => {
-    angle = ['menu', 'stack'].includes(document.body.dataset.page) ? 90 : document.body.dataset.page === 'work' ? -90 : 0;
+    angle = document.body.dataset.page === 'menu' ? 50 : document.body.dataset.page === 'stack' ? 90 : document.body.dataset.page === 'work' ? -90 : 0;
     setAngle(angle);
+    scheduleIdle();
   });
 
   async function render() {
@@ -64,6 +112,7 @@
     }
     profileAnimation?.cancel();
     document.body.dataset.page = page;
+    scheduleIdle();
     document.querySelector('.pigeon-links').inert = page !== 'home';
     menu.inert = page === 'home';
     toggle.textContent = page === 'home' ? 'mas? →' : '← mas.';
@@ -79,7 +128,7 @@
       else link.removeAttribute('aria-current');
     });
     document.title = `${page === 'home' ? 'Chaemin Shin' : page[0].toUpperCase() + page.slice(1) + ' — Chaemin Shin'} · Portfolio`;
-    const turning = turnTo(['menu', 'stack'].includes(page) ? 90 : page === 'work' ? -90 : 0);
+    const turning = turnTo(page === 'menu' ? 50 : page === 'stack' ? 90 : page === 'work' ? -90 : 0);
     window.scrollTo({ top: 0, behavior: 'instant' });
     if (showProfile && hadProfile && Number(opacity) > 0) {
       home.style.opacity = '1';

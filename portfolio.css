@@ -45,6 +45,8 @@ body[data-page="menu"] .home-content { color: var(--ink); }
 body[data-page="menu"] .home-content > :not(.mas-toggle) { visibility: hidden; }
 body[data-page="menu"] .page-nav { left: 7vw; }
 body:not([data-page="home"]) #pigeon { transform: translate(calc(83vw - 50%), calc(var(--bird-y) - 50%)) scale(.6); }
+/* Extra camera margin lets the reaching head stay inside the fixed canvas. */
+body[data-page="menu"] #pigeon { transform: translate(calc(83vw - 50%), calc(var(--bird-y) - 50%)) scale(.9); }
 .mas-toggle { display: inline-block; margin-top: 22px; min-height: 44px; font-family: var(--display); font-size: clamp(26px, 2.5vw, 34px); line-height: 1.4; letter-spacing: -.03em; cursor: pointer; }
 .mas-toggle:hover { text-decoration: underline; text-underline-offset: 7px; }
 .mas-toggle:active { opacity: .65; }
@@ -123,6 +125,7 @@ code { font-family: var(--mono); font-size: .83em; }
   body[data-page="home"] { --hole-y: calc(var(--bird-y) - 350px * .23); }
   body[data-page="home"] #pigeon { transform: translate(calc(var(--bird-x) - 50%), calc(var(--hole-y) + 350px * .299 + var(--home-offset) - 50%)); }
   body:not([data-page="home"]) #pigeon { transform: translate(calc(76vw - 50%), calc(175px - 50%)) scale(.48); }
+  body[data-page="menu"] #pigeon { transform: translate(calc(76vw - 50%), calc(175px - 50%)) scale(.72); }
   main { width: 100%; padding: 325px 7vw 125px; }
   .home-content { padding-top: 0; }
   .greeting { font-size: clamp(25.2px, 6.75vw, 41.4px); }
